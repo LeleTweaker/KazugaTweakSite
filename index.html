@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kazuga Master Tweak</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto&display=swap');
+
+  body {
+    margin: 0; padding: 0;
+    background: #000;
+    color: #0aff99;
+    font-family: 'Roboto', sans-serif;
+    display: flex; flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  header {
+    margin-top: 40px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-shadow:
+      0 0 8px #0aff99,
+      0 0 20px #00ff7f,
+      0 0 30px #00ff7f;
+  }
+
+  section {
+    max-width: 800px;
+    width: 90%;
+    margin: 40px 0;
+    background: #111;
+    border-radius: 12px;
+    box-shadow:
+      0 0 10px #0aff99,
+      0 0 40px #00ff7f;
+    padding: 30px 40px;
+    animation: fadeInUp 1s ease forwards;
+  }
+
+  h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #00ff7f;
+    text-shadow: 0 0 10px #00ff7f;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  li {
+    margin-bottom: 15px;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+  }
+  li::before {
+    content: "✔️";
+    margin-right: 12px;
+    font-size: 1.3rem;
+    color: #0aff99;
+    text-shadow: 0 0 6px #0aff99;
+  }
+
+  /* Pricing boxes */
+  .pricing-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .pricing-box {
+    background: #000;
+    border: 3px solid #0aff99;
+    border-radius: 15px;
+    padding: 30px 40px;
+    width: 280px;
+    cursor: pointer;
+    box-shadow: 0 0 12px #00ff7f;
+    transition: transform 0.3s ease, box-shadow 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 24px #00ff7f, 0 0 40px #0aff99;
+  }
+
+  .pricing-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #0aff99;
+    text-align: center;
+  }
+
+  .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #00ff7f;
+    text-shadow: 0 0 10px #00ff7f;
+  }
+
+  .pricing-details {
+    max-height: 0;
+    overflow: hidden;
+    color: #0aff99;
+    font-size: 1rem;
+    line-height: 1.4;
+    transition: max-height 0.5s ease;
+  }
+
+  .pricing-box.active .pricing-details {
+    max-height: 500px;
+    margin-top: 15px;
+  }
+
+  /* Language toggle */
+  .lang-toggle {
+    margin: 20px auto 0 auto;
+    text-align: center;
+  }
+
+  .lang-btn {
+    background: transparent;
+    border: 2px solid #0aff99;
+    color: #0aff99;
+    padding: 8px 20px;
+    margin: 0 8px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 30px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1.2px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .lang-btn.active,
+  .lang-btn:hover {
+    background-color: #0aff99;
+    color: #000;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>Kazuga Master Tweak</header>
+
+<section id="features">
+  <h2>Features</h2>
+  <ul id="features-list"></ul>
+</section>
+
+<section id="pricing">
+  <h2>Pricing</h2>
+  <div class="pricing-container">
+    <div class="pricing-box" tabindex="0">
+      <div class="pricing-title">Basic - €5</div>
+      <div class="pricing-details"></div>
+    </div>
+    <div class="pricing-box" tabindex="0">
+      <div class="pricing-title">Pro - €10</div>
+      <div class="pricing-details"></div>
+    </div>
+  </div>
+</section>
+
+<div class="lang-toggle" role="group" aria-label="Language switcher">
+  <button class="lang-btn active" data-lang="en" aria-pressed="true">English</button>
+  <button class="lang-btn" data-lang="de" aria-pressed="false">Deutsch</button>
+</div>
+
+<script>
+  const texts = {
+    en: {
+      features: [
+        "⚡ CPU & GPU Boost – smoother gameplay, faster speeds.",
+        "📶 Wi-Fi Optimization – better ping & connection stability.",
+        "🧹 USB Debloat – removes junk drivers, frees resources.",
+        "🎮 DirectX 11 Tweaks – improved graphics & less stutter.",
+        "⚙️ Windows Tweaks – faster startup & better multitasking.",
+        "🔧 Pro only: Advanced system optimizations & priority support."
+      ],
+      pricingDetails: [
+        [
+          "Basic CPU & GPU Boost",
+          "Wi-Fi Optimization",
+          "USB Debloat",
+          "DirectX 11 Enhancements",
+          "Basic Windows Tweaks"
+        ],
+        [
+          "Everything in Basic",
+          "Advanced CPU & GPU Optimization",
+          "Enhanced Wi-Fi & USB Tweaks",
+          "Full DirectX 11 Graphics Improvements",
+          "Advanced Windows System Tweaks",
+          "Priority updates & support"
+        ]
+      ]
+    },
+    de: {
+      features: [
+        "⚡ CPU & GPU Boost – flüssigeres Gameplay, schnellere Leistung.",
+        "📶 WLAN-Optimierung – besserer Ping & stabilere Verbindung.",
+        "🧹 USB Debloat – entfernt unnötige Treiber, gibt Ressourcen frei.",
+        "🎮 DirectX 11 Tweaks – verbesserte Grafik, weniger Ruckler.",
+        "⚙️ Windows Tweaks – schnellerer Start & besseres Multitasking.",
+        "🔧 Pro nur: Erweiterte Systemoptimierungen & Prioritätssupport."
+      ],
+      pricingDetails: [
+        [
+          "Grundlegender CPU & GPU Boost",
+          "WLAN-Optimierung",
+          "USB Debloat",
+          "DirectX 11 Verbesserungen",
+          "Grundlegende Windows Tweaks"
+        ],
+        [
+          "Alles aus Basic",
+          "Erweiterte CPU & GPU Optimierung",
+          "Verbesserte WLAN & USB Tweaks",
+          "Vollständige DirectX 11 Grafikverbesserungen",
+          "Erweiterte Windows System Tweaks",
+          "Priorisierte Updates & Support"
+        ]
+      ]
+    }
+  };
+
+  let currentLang = 'en';
+
+  const featuresList = document.getElementById('features-list');
+  const pricingBoxes = document.querySelectorAll('.pricing-box');
+  const langButtons = document.querySelectorAll('.lang-btn');
+
+  function updateContent(lang) {
+    const data = texts[lang];
+    // Features
+    featuresList.innerHTML = '';
+    data.features.forEach(f => {
+      const li = document.createElement('li');
+      li.textContent = f;
+      featuresList.appendChild(li);
+    });
+    // Pricing details
+    pricingBoxes.forEach((box, i) => {
+      const detailsDiv = box.querySelector('.pricing-details');
+      detailsDiv.innerHTML = '';
+      data.pricingDetails[i].forEach(item => {
+        const p = document.createElement('p');
+        p.textContent = "• " + item;
+        detailsDiv.appendChild(p);
+      });
+      // Close details by default
+      box.classList.remove('active');
+    });
+  }
+
+  // Initial
+  updateContent(currentLang);
+
+  // Pricing toggle details
+  pricingBoxes.forEach(box => {
+    box.addEventListener('click', () => {
+      pricingBoxes.forEach(b => b !== box && b.classList.remove('active'));
+      box.classList.toggle('active');
+    });
+    box.addEventListener('keypress', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        box.click();
+      }
+    });
+  });
+
+  // Language switch
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      langButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentLang = btn.dataset.lang;
+      updateContent(currentLang);
+    });
+  });
+</script>
+
+</body>
+</html>
